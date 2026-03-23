@@ -1,21 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import {
-  Zap,
-  Check,
-  ArrowRight,
-  Sparkles,
-} from "lucide-react";
+import { Check, ArrowRight, Sparkles } from "lucide-react";
 import { PLANS, PlanKey, BillingInterval } from "@/lib/stripe";
+import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
+import { Background } from "@/components/Background";
 
 export default function PricingPage() {
   const [interval, setInterval] = useState<BillingInterval>("monthly");
   const [loading, setLoading] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleCheckout(plan: PlanKey) {
     setLoading(plan);
+    setError(null);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -26,40 +25,21 @@ export default function PricingPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        console.error("Checkout error:", data.error);
+        setError(
+          data.error || "Something went wrong. Please try again or contact support."
+        );
         setLoading(null);
       }
-    } catch (err) {
-      console.error("Checkout error:", err);
+    } catch {
+      setError("Network error. Please check your connection and try again.");
       setLoading(null);
     }
   }
 
   return (
     <div className="min-h-screen bg-[#08090c] text-white overflow-hidden">
-      {/* Ambient background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-blue-950/40 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-slate-800/30 rounded-full blur-[120px]" />
-      </div>
-
-      {/* Nav */}
-      <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 lg:px-20 py-5">
-        <Link href="/" className="flex items-center gap-2">
-          <Zap className="h-5 w-5 text-blue-400" />
-          <span className="text-xl font-bold tracking-tight text-white">
-            SocialForge
-          </span>
-        </Link>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="px-5 py-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
-          >
-            Home
-          </Link>
-        </div>
-      </nav>
+      <Background />
+      <Nav />
 
       {/* Header */}
       <section className="relative z-10 px-6 md:px-12 lg:px-20 pt-16 pb-12 max-w-5xl mx-auto text-center">
@@ -68,8 +48,8 @@ export default function PricingPage() {
           <span className="text-blue-400"> pricing</span>
         </h1>
         <p className="text-lg text-white/40 max-w-xl mx-auto mb-10">
-          Start free, scale when you're ready. Every plan includes a 14-day free
-          trial.
+          Start free, scale when you&apos;re ready. Every plan includes a 14-day
+          free trial.
         </p>
 
         {/* Billing toggle */}
@@ -99,6 +79,15 @@ export default function PricingPage() {
           </button>
         </div>
       </section>
+
+      {/* Error banner */}
+      {error && (
+        <div className="relative z-10 px-6 md:px-12 lg:px-20 pb-6 max-w-5xl mx-auto">
+          <div className="p-4 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-sm text-center">
+            {error}
+          </div>
+        </div>
+      )}
 
       {/* Pricing cards */}
       <section className="relative z-10 px-6 md:px-12 lg:px-20 pb-28 max-w-5xl mx-auto">
@@ -171,7 +160,7 @@ export default function PricingPage() {
                       <span className="animate-pulse">Redirecting...</span>
                     ) : (
                       <>
-                        Get Started
+                        Start Free Trial
                         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
@@ -183,7 +172,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* FAQ-style trust section */}
+      {/* FAQ */}
       <section className="relative z-10 px-6 md:px-12 lg:px-20 pb-28 max-w-3xl mx-auto">
         <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 md:p-12">
           <h2 className="text-2xl font-bold mb-8 text-center">
@@ -223,31 +212,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] px-6 md:px-12 lg:px-20 py-8 max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-blue-400" />
-            <span className="text-sm font-semibold text-white">
-              SocialForge
-            </span>
-          </div>
-          <div className="flex items-center gap-6 text-xs text-white/25">
-            <Link href="/" className="hover:text-white/50 transition-colors">
-              Home
-            </Link>
-            <Link
-              href="/pricing"
-              className="hover:text-white/50 transition-colors"
-            >
-              Pricing
-            </Link>
-          </div>
-          <p className="text-xs text-white/15">
-            Built for builders who ship.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

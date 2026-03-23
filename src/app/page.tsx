@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Zap,
   BarChart3,
@@ -21,47 +22,18 @@ import {
   Lock,
   Layers,
 } from "lucide-react";
+import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
+import { Background } from "@/components/Background";
 
-const APP_URL = "https://quadposter.up.railway.app";
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "https://quadposter.up.railway.app";
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#08090c] text-white overflow-hidden">
-      {/* Ambient background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-blue-950/40 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-slate-800/30 rounded-full blur-[120px]" />
-      </div>
-
-      {/* Nav */}
-      <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 lg:px-20 py-5">
-        <div className="flex items-center gap-2">
-          <Zap className="h-5 w-5 text-blue-400" />
-          <span className="text-xl font-bold tracking-tight text-white">
-            SocialForge
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <a
-            href="/pricing"
-            className="px-5 py-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
-          >
-            Pricing
-          </a>
-          <a
-            href={`${APP_URL}/login`}
-            className="px-5 py-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
-          >
-            Log in
-          </a>
-          <a
-            href="/pricing"
-            className="px-5 py-2.5 text-sm font-medium rounded-lg bg-blue-600 hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 hover:-translate-y-0.5"
-          >
-            Get Started
-          </a>
-        </div>
-      </nav>
+      <Background />
+      <Nav />
 
       {/* Hero */}
       <section className="relative z-10 px-6 md:px-12 lg:px-20 pt-20 pb-32 max-w-6xl mx-auto text-center">
@@ -86,13 +58,13 @@ export default function LandingPage() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <a
-            href={`${APP_URL}/login`}
+          <Link
+            href="/pricing"
             className="group flex items-center gap-2 px-8 py-4 text-base font-medium rounded-xl bg-blue-600 hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/20 hover:shadow-blue-500/30 hover:-translate-y-1"
           >
             Start Building
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Link>
           <a
             href="#features"
             className="flex items-center gap-2 px-8 py-4 text-base font-medium rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/[0.03] transition-all"
@@ -103,11 +75,11 @@ export default function LandingPage() {
 
         {/* Platform icons */}
         <div className="flex items-center justify-center gap-6 opacity-30">
-          <Twitter className="h-6 w-6" />
-          <Facebook className="h-6 w-6" />
-          <Linkedin className="h-6 w-6" />
-          <Youtube className="h-6 w-6" />
-          <Music2 className="h-6 w-6" />
+          <Twitter className="h-6 w-6" aria-hidden="true" />
+          <Facebook className="h-6 w-6" aria-hidden="true" />
+          <Linkedin className="h-6 w-6" aria-hidden="true" />
+          <Youtube className="h-6 w-6" aria-hidden="true" />
+          <Music2 className="h-6 w-6" aria-hidden="true" />
         </div>
       </section>
 
@@ -119,16 +91,16 @@ export default function LandingPage() {
             <span>5 platforms supported</span>
           </div>
           <div className="flex items-center gap-2">
-            <Webhook className="h-4 w-4" />
-            <span>27 API endpoints</span>
-          </div>
-          <div className="flex items-center gap-2">
             <Shield className="h-4 w-4" />
             <span>Encrypted at rest</span>
           </div>
           <div className="flex items-center gap-2">
-            <Bot className="h-4 w-4" />
-            <span>Bot-native architecture</span>
+            <Clock className="h-4 w-4" />
+            <span>99.9% uptime</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Webhook className="h-4 w-4" />
+            <span>14-day free trial</span>
           </div>
         </div>
       </section>
@@ -334,7 +306,7 @@ export default function LandingPage() {
                 <span className="text-white/15 text-xs ml-2">terminal</span>
               </div>
               <pre className="text-white/50 leading-relaxed overflow-x-auto">
-                <code>{`$ curl /api/v1/status -H "x-api-key: qp_..."
+                <code>{`$ curl /api/v1/status -H "x-api-key: sf_..."
 
 {
   "pipeline": {
@@ -474,7 +446,7 @@ export default function LandingPage() {
                 <p>
                   socialforge_api_key:{" "}
                   <span className="text-blue-400">
-                    &quot;qp_your_key_here&quot;
+                    &quot;sf_your_key_here&quot;
                   </span>
                 </p>
                 <p>
@@ -512,51 +484,18 @@ export default function LandingPage() {
               Connect OpenClaw, add your API key, and let your entire social
               media pipeline run on autopilot.
             </p>
-            <a
-              href={`${APP_URL}/login`}
+            <Link
+              href="/pricing"
               className="group inline-flex items-center gap-2 px-10 py-4 text-base font-medium rounded-xl bg-blue-600 hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/20 hover:shadow-blue-500/30 hover:-translate-y-1"
             >
               Get Started Free
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] px-6 md:px-12 lg:px-20 py-8 max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-blue-400" />
-            <span className="text-sm font-semibold text-white">
-              SocialForge
-            </span>
-          </div>
-          <div className="flex items-center gap-6 text-xs text-white/25">
-            <a
-              href="/pricing"
-              className="hover:text-white/50 transition-colors"
-            >
-              Pricing
-            </a>
-            <a
-              href={`${APP_URL}/api-docs`}
-              className="hover:text-white/50 transition-colors"
-            >
-              API Docs
-            </a>
-            <a
-              href={`${APP_URL}/login`}
-              className="hover:text-white/50 transition-colors"
-            >
-              Dashboard
-            </a>
-          </div>
-          <p className="text-xs text-white/15">
-            Built for builders who ship.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

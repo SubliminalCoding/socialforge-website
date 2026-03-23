@@ -13,9 +13,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SocialForge - Create Once, Publish Everywhere",
+  title: {
+    default: "SocialForge - Create Once, Publish Everywhere",
+    template: "%s | SocialForge",
+  },
   description:
     "The social media command center built for automation. Connect OpenClaw, plug in your API key, and let AI create, schedule, and publish content across every platform.",
+  openGraph: {
+    title: "SocialForge - Create Once, Publish Everywhere",
+    description:
+      "AI-powered social media automation. Create, schedule, and publish content across every platform.",
+    siteName: "SocialForge",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SocialForge - Create Once, Publish Everywhere",
+    description:
+      "AI-powered social media automation. Create, schedule, and publish content across every platform.",
+  },
 };
 
 export default function RootLayout({
